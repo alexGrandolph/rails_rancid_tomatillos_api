@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
 
-
   def create
+
     if params[:password] == params[:password_confirmation]
       user = User.create!(email: params[:email], password: params[:password])
       user.api_key = SecureRandom.hex(15)
@@ -14,6 +14,7 @@ class Api::V1::UsersController < ApplicationController
   end 
 
   def login
+    print "LOGIN #{params}"
     user = User.find_by(email: user_params[:email])
     if user && user.authenticate(user_params[:password])
       render json: UserSerializer.session_login(user)
@@ -21,6 +22,12 @@ class Api::V1::UsersController < ApplicationController
       render json: ErrorSerializer.bad_credentials, status: 422
     end
   end
+
+    private
+    def user_params
+      params.permit(:email, :password)
+
+    end
 
   
 

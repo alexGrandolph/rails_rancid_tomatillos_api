@@ -13,6 +13,18 @@ class UserSerializer
       }
     }
   end 
+    def self.session_login(user)
+    {
+      "data": {
+        "type": "users",
+        "id": "#{user.id}",
+        "attributes": {
+          "email": user.email,
+          "api_key": user.api_key
+        }
+      }
+    }
+  end 
 
 
 end
